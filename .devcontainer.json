@@ -1,6 +1,6 @@
 {
 	"name": "Django dev container",
-	"dockerComposeFile": "../docker-compose.yml",
+	"dockerComposeFile": "../docker-compose.dev.yml",
 	"service": "backend",
 	"customizations": {
 		"vscode": {

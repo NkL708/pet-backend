@@ -55,6 +55,9 @@ disable = [
 [tool.bandit]
 exclude_dirs = ["tests", ".venv"]
 
+[tool.mypy]
+exclude = '^\\.venv/'
+
 [[tool.mypy.overrides]]
 module = "factory.*"
 ignore_missing_imports = true
