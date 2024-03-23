@@ -20,11 +20,10 @@ sentry-sdk = "*"
 gunicorn = "*"
 
 [tool.poetry.dev-dependencies]
-pylint = "*"
+ruff = "*"
 mypy = "*"
 bandit = "*"
 
-flake8 = "*"
 black = "*"
 isort = "*"
 
@@ -38,26 +37,22 @@ factory-boy = "*"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pytest.ini_options]
-addopts = "--tb=short --cov=api"
-
-[tool.black]
+[tool.ruff]
+exclude = [".venv"]
 line-length = 79
-string-normalization = true
-
-[tool.pylint.'MESSAGES CONTROL']
-disable = [
-    "C0114", # Missing module docstring
-    "C0115", # Missing class docstring
-    "C0116", # Missing function or method docstring
-]
-
-[tool.bandit]
-exclude_dirs = ["tests", ".venv"]
 
 [tool.mypy]
-exclude = '^\\.venv/'
+exclude = [".venv/"]
 
 [[tool.mypy.overrides]]
 module = "factory.*"
 ignore_missing_imports = true
+
+[tool.black]
+line-length = 79
+
+[tool.pytest.ini_options]
+addopts = "--tb=short --cov=api"
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]

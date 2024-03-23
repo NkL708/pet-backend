@@ -1,4 +1,3 @@
-# pylint: disable=too-few-public-methods
 import random
 import string
 from typing import Optional
@@ -15,8 +14,6 @@ def generate_complex_password():
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    # pylint: disable=no-member
-    # pylint: disable=attribute-defined-outside-init
     class Meta:
         model = User
         skip_postgeneration_save = True

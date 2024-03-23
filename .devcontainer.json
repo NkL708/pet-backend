@@ -11,15 +11,10 @@
 			"extensions": [
 				"ms-azuretools.vscode-docker",
 				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.flake8",
+				"charliermarsh.ruff",
 				"matangover.mypy",
-				"KevinRose.vsc-python-indent",
-				"donjayamanne.python-environment-manager",
 				"tamasfe.even-better-toml",
-				"christian-kohler.path-intellisense",
-				"zh9528.file-size",
-				"ecmel.vscode-html-css"
+				"zh9528.file-size"
 			]
 		}
 	},
