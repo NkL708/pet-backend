@@ -13,6 +13,7 @@ django-stubs = "*"
 djangorestframework = "*"
 djangorestframework-stubs = "*"
 djangorestframework-simplejwt = "*"
+django-cors-headers = "*"
 
 python-dotenv = "*"
 psycopg2-binary = "*"
