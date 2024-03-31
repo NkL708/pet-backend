@@ -19,8 +19,8 @@ RUN zsh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions
 EXPOSE 8000
-CMD zsh -c "poetry run python manage.py migrate && \
-    poetry run python manage.py runserver 0.0.0.0:8000"
+ENTRYPOINT poetry run python manage.py migrate && \
+    poetry run python manage.py runserver 0.0.0.0:8000
 
 FROM base as prod
 ARG DJANGO_SECRET_KEY
@@ -29,4 +29,5 @@ COPY --chown=nkl:nkl . .
 USER nkl
 RUN poetry run python manage.py collectstatic --noinput
 EXPOSE 8000
-CMD ["poetry", "run", "gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+ENTRYPOINT poetry run python manage.py migrate && \
+    poetry run gunicorn core.wsgi:application --bind 0.0.0.0:8000
