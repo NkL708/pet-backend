@@ -2,25 +2,26 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-# import sentry_sdk
-# from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
 from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
 
+# Environment
 load_dotenv()
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# sentry_sdk.init(
-#     dsn=config('SENTRY_DSN'),
-#     integrations=[DjangoIntegration()],
-#     send_default_pii=True,
-#     traces_sample_rate=1.0,
-#     profiles_sample_rate=1.0,
-# )
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("PRODUCTION") == "False"
 
-# ALLOWED_HOSTS = []
+# Django
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+ROOT_URLCONF = "core.urls"
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
+USE_I18N = True
+USE_TZ = True
+WSGI_APPLICATION = "core.wsgi.application"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -31,20 +32,20 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
+    "corsheaders",
     "api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -62,7 +63,33 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.wsgi.application"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "ERROR",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
+
+# REST
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+# Database
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DATABASES = {
     "default": {
@@ -75,47 +102,29 @@ DATABASES = {
     }
 }
 
+# Auth
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
-            "django.contrib.auth."
-            "password_validation.UserAttributeSimilarityValidator"
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
         )
     },
     {
         "NAME": (
-            "django.contrib.auth." "password_validation.MinimumLengthValidator"
+            "django.contrib.auth.password_validation.MinimumLengthValidator"
         )
     },
     {
         "NAME": (
-            "django.contrib.auth."
-            "password_validation.CommonPasswordValidator"
+            "django.contrib.auth.password_validation.CommonPasswordValidator"
         )
     },
     {
         "NAME": (
-            "django.contrib.auth."
-            "password_validation.NumericPasswordValidator"
+            "django.contrib.auth.password_validation.NumericPasswordValidator"
         )
     },
 ]
-
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
-USE_I18N = True
-USE_TZ = True
-
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-}
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
@@ -123,3 +132,17 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+# Outer requests
+ALLOWED_HOSTS = ["localhost"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:4200", "http://localhost:80"]
+
+# Sentry
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=os.getenv("SENTRY_DSN"),
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )

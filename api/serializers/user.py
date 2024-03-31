@@ -1,4 +1,3 @@
-# pylint: disable=too-few-public-methods
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -43,7 +42,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ResetPasswordSerializer(serializers.Serializer):
-    # pylint: disable=abstract-method
     email = serializers.EmailField()
     new_password = serializers.CharField(write_only=True, required=False)
     confirm_new_password = serializers.CharField(

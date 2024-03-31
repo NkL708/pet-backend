@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-# pylint: disable=too-few-public-methods
 import pytest
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
