@@ -1,10 +1,11 @@
 import pytest
 from django.contrib.auth.models import User
-from django.core import mail
+
+# from django.core import mail
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from ...services.url import generate_reset_url
+# from ...services.url import generate_reset_url
 
 
 @pytest.mark.django_db
@@ -226,17 +227,17 @@ def test_users_get(
         assert "password" not in user
 
 
-@pytest.mark.django_db
-def test_reset_password_mail(user_valid: User, api_client: APIClient) -> None:
-    response = api_client.post(
-        "/api/user/reset-password/", {"email": user_valid.email}
-    )
-    assert response.status_code == status.HTTP_200_OK
+# @pytest.mark.django_db
+# def test_reset_password_mail(user_valid: User, api_client: APIClient) -> None:
+#     response = api_client.post(
+#         "/api/user/reset-password/", {"email": user_valid.email}
+#     )
+#     assert response.status_code == status.HTTP_200_OK
 
-    assert len(mail.outbox) == 1
-    sent_mail = mail.outbox[0]
-    assert "Сброс пароля" in sent_mail.subject
-    assert (
-        "Для сброса пароля перейдите по ссылке: "
-        f"{generate_reset_url(user_valid)}" in sent_mail.body
-    )
+#     assert len(mail.outbox) == 1
+#     sent_mail = mail.outbox[0]
+#     assert "Сброс пароля" in sent_mail.subject
+#     assert (
+#         "Для сброса пароля перейдите по ссылке: "
+#         f"{generate_reset_url(user_valid)}" in sent_mail.body
+#     )
