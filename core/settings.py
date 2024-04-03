@@ -134,8 +134,12 @@ SIMPLE_JWT = {
 }
 
 # Outer requests
-ALLOWED_HOSTS = ["localhost"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:4200", "http://localhost:80"]
+ALLOWED_HOSTS = ["localhost", os.getenv("SERVER_IP")]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://localhost",
+    f"http://{os.getenv('SERVER_IP')}",
+]
 
 # Sentry
 if not DEBUG:
