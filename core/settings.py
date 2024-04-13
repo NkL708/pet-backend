@@ -134,17 +134,17 @@ SIMPLE_JWT = {
 }
 
 # Outer requests
-ALLOWED_HOSTS = ["localhost", os.getenv("SERVER_IP")]
+ALLOWED_HOSTS = ["localhost", os.getenv("SERVER_HOST")]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://localhost",
-    f"http://{os.getenv('SERVER_IP')}",
+    f"http://{os.getenv('SERVER_HOST')}",
 ]
 
 # Sentry
 if not DEBUG:
     sentry_sdk.init(
-        dsn=os.getenv("SENTRY_DSN"),
+        dsn=os.getenv("SENTRY_DSN_BACKEND"),
         integrations=[DjangoIntegration()],
         send_default_pii=True,
         traces_sample_rate=1.0,
