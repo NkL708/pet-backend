@@ -1,24 +1,24 @@
 {
-	"name": "Django dev container",
-	"dockerComposeFile": "../docker-compose.dev.yml",
-	"service": "backend",
-	"customizations": {
-		"vscode": {
-			"settings": {
-				"python.pythonPath": ".venv/bin/python",
-				"mypy.runUsingActiveInterpreter": true
-			},
-			"extensions": [
-				"ms-azuretools.vscode-docker",
-				"ms-python.python",
-				"ms-python.black-formatter",
-				"charliermarsh.ruff",
-				"matangover.mypy",
-				"tamasfe.even-better-toml",
-				"zh9528.file-size"
-			]
-		}
-	},
-	"shutdownAction": "none",
-	"workspaceFolder": "/home/nkl/backend"
+  "name": "Django dev container",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "backend",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.pythonPath": ".venv/bin/python",
+        "mypy.runUsingActiveInterpreter": true
+      },
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "matangover.mypy",
+        "tamasfe.even-better-toml",
+        "zh9528.file-size"
+      ]
+    }
+  },
+  "shutdownAction": "none",
+  "workspaceFolder": "/home/nkl/backend"
 }
