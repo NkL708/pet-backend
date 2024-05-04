@@ -20,6 +20,16 @@ psycopg2-binary = "*"
 sentry-sdk = "*"
 gunicorn = "*"
 
+feedparser = "*"
+beautifulsoup4 = "*"
+types-beautifulsoup4 = "*"
+g4f = "*"
+celery = { version = "*", extras = ["redis", "beat"] }
+celery-types = "*"
+redis = "*"
+types-redis = "*"
+PyYAML = "*"
+
 [tool.poetry.dev-dependencies]
 ruff = "*"
 mypy = "*"
@@ -44,6 +54,7 @@ line-length = 79
 
 [tool.mypy]
 exclude = [".venv/"]
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "factory.*"

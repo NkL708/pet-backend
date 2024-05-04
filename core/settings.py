@@ -3,6 +3,8 @@ from datetime import timedelta
 from pathlib import Path
 
 import sentry_sdk
+import yaml
+from celery.schedules import crontab
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -18,7 +20,7 @@ STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 ROOT_URLCONF = "core.urls"
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Novosibirsk"
 USE_I18N = True
 USE_TZ = True
 WSGI_APPLICATION = "core.wsgi.application"
@@ -97,7 +99,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "db",
+        "HOST": "postgres",
         "PORT": "5432",
     }
 }
@@ -150,3 +152,29 @@ if not DEBUG:
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
     )
+
+# Selery
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+
+schedule_path = os.path.join(BASE_DIR, "core", "schedule.yml")
+
+
+def parse_cron_expr(cron_expr: str):
+    fields = cron_expr.split()
+    return crontab(
+        minute=fields[0],
+        hour=fields[1],
+        day_of_month=fields[2],
+        month_of_year=fields[3],
+        day_of_week=fields[4],
+    )
+
+
+with open(schedule_path) as f:
+    raw_schedule = yaml.safe_load(f)
+    for key, value in raw_schedule.items():
+        if "schedule" in value:
+            value["schedule"] = parse_cron_expr(value["schedule"])
+    CELERY_BEAT_SCHEDULE = raw_schedule

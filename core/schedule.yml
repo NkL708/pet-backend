@@ -1,0 +1,5 @@
+generate_daily_digest:
+  task: api.tasks.generate_daily_digest_task
+  schedule: "0 0 * * *"
+  args:
+    - "https://www.vedomosti.ru/rss/rubric/technology.xml"
