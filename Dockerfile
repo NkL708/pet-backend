@@ -23,8 +23,8 @@ EXPOSE 8000
 FROM base as prod
 ARG DJANGO_SECRET_KEY
 ARG IS_STATICFILES_NEEDED
-RUN poetry install --no-dev --no-root
 COPY --chown=nkl:nkl . .
+RUN poetry install --no-dev --no-root
 USER nkl
 RUN if [ "$IS_STATICFILES_NEEDED" = "true" ]; then \
     poetry run python manage.py collectstatic --noinput; \
