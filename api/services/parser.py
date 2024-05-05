@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 
 def fetch_article_text(url: str) -> str:
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, "html.parser")
     paragraphs = soup.find_all("p", class_="box-paragraph__text")
