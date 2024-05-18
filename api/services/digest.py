@@ -18,7 +18,8 @@ def generate_daily_digest(url: str) -> None:
             short_text = generate_summary(article_text)
             article = save_article(feed_article.link, short_text, article_text)
             articles.append(article)
-    save_digest(articles)
+    if articles:
+        save_digest(articles)
 
 
 def published_today(published_date: str) -> bool:
