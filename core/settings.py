@@ -158,6 +158,11 @@ CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    "visibility_timeout": 600,
+    "retry_policy": {"timeout": 30.0},
+}
+
 schedule_path = os.path.join(BASE_DIR, "core", "schedule.yml")
 
 
