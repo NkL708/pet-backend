@@ -1,30 +1,9 @@
 import pytest
-from freezegun import freeze_time
 
 from ..models.article import Article
 from ..models.digest import Digest
-from ..services.digest import (
-    generate_daily_digest,
-    save_article,
-    save_digest,
-)
-from .factories import ArticleFactory, MockFeedArticleFactory
+from ..services.digest import generate_daily_digest
 from .utils import count_yesterday_articles
-
-# @pytest.mark.django_db
-# def test_save_article():
-#     source_url = "https://example.com/article2"
-#     article = save_article(source_url, "Short text", "Full text")
-#     assert isinstance(article, Article)
-#     assert Article.objects.filter(source_url=source_url).exists()
-
-
-# @pytest.mark.django_db
-# def test_save_digest():
-#     article = ArticleFactory.create()
-#     digest = save_digest([article])
-#     assert isinstance(digest, Digest)
-#     assert article in digest.articles.all()
 
 
 @pytest.mark.django_db
