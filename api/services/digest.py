@@ -1,35 +1,30 @@
-from datetime import date, datetime
+from datetime import date
 
 from django.db import transaction
 
 from ..models.article import Article
 from ..models.digest import Digest
+from .date_utils import (
+    get_current_datetime,
+    get_yesterday_date,
+    published_on_specific_date,
+)
 from .gpt import generate_summary, generate_title
 from .parser import fetch_article_text, get_feed
 
-DATE_FORMAT = "%a, %d %b %Y %H:%M:%S %z"
-
 
 def generate_daily_digest(url: str) -> None:
+    yesterday_date = get_yesterday_date(get_current_datetime())
+
     articles = []
     for feed_article in get_feed(url).entries:
-        if published_today(feed_article.published):
+        if published_on_specific_date(feed_article.published, yesterday_date):
             article_text = fetch_article_text(feed_article.link)
             short_text = generate_summary(article_text)
             article = save_article(feed_article.link, short_text, article_text)
             articles.append(article)
     if articles:
         save_digest(articles)
-
-
-def published_today(published_date: str) -> bool:
-    article_date = datetime.strptime(published_date, DATE_FORMAT)
-    current_date = datetime.now(tz=article_date.tzinfo)
-    return (
-        article_date.day == current_date.day
-        and article_date.month == current_date.month
-        and article_date.year == current_date.year
-    )
 
 
 def save_article(source_url: str, short_text: str, full_text: str) -> Article:
