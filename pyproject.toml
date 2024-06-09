@@ -39,10 +39,15 @@ black = "*"
 isort = "*"
 
 pytest = "*"
+pytest-mock = "*"
 pytest-django = "*"
 pytest-cov = "*"
 coverage = "*"
 factory-boy = "*"
+freezegun = "*"
+types-freezegun = "*"
+pytz = "*"
+types-pytz = "*"
 
 [build-system]
 requires = ["poetry-core"]
@@ -69,6 +74,17 @@ profile = "black"
 
 [tool.pytest.ini_options]
 addopts = "--tb=short --cov=api"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+omit = [
+    "api/migrations/*",
+    "api/tests/*",
+    "*__init__.py",
+    "api/apps.py",
+    "api/admin.py",
+    "api/tasks.py",
+]
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv"]
