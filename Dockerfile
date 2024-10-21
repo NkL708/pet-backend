@@ -1,4 +1,4 @@
-FROM python:3.11-alpine as base
+FROM python:3.11-alpine AS base
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV DJANGO_SETTINGS_MODULE=core.settings
 WORKDIR /home/nkl/backend
@@ -9,7 +9,7 @@ RUN pip install poetry && \
     adduser -D -G nkl -s /bin/zsh nkl && \
     chown -R nkl:nkl /home/nkl
 
-FROM base as dev
+FROM base AS dev
 RUN poetry install --no-root && \
     apk update && apk upgrade && \
     apk --no-cache add zsh git curl grep redis
@@ -20,7 +20,7 @@ RUN zsh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download
     git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions
 EXPOSE 8000
 
-FROM base as prod
+FROM base AS prod
 ARG DJANGO_SECRET_KEY
 ARG IS_STATICFILES_NEEDED
 COPY --chown=nkl:nkl . .
