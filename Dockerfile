@@ -1,5 +1,4 @@
 FROM python:3.11-alpine AS base
-ENV PYTHONDONTWRITEBYTECODE 1
 ENV DJANGO_SETTINGS_MODULE=core.settings
 WORKDIR /home/nkl/backend
 COPY pyproject.toml poetry.lock manage.py ./
@@ -18,6 +17,7 @@ RUN zsh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download
     -t robbyrussell -p git -p zsh-autosuggestions -p zsh-completions && \
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions
+COPY sitecustomize.py /home/nkl/backend/.venv/lib/python3.11/site-packages/
 EXPOSE 8000
 
 FROM base AS prod
