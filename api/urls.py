@@ -1,8 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from ..views.article import ArticleViewSet
-from ..views.digest import DigestViewSet
+from .views import ArticleViewSet, DigestViewSet
 
 router = DefaultRouter()
 router.register(r"articles", ArticleViewSet)

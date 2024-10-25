@@ -2,8 +2,7 @@ from datetime import date
 
 from django.db import transaction
 
-from ..models.article import Article
-from ..models.digest import Digest
+from ..models import Article, Digest
 from .date_utils import (
     get_current_datetime,
     get_yesterday_date,

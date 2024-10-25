@@ -1,7 +1,12 @@
 from rest_framework import serializers
 
-from ..models.digest import Digest
-from ..serializers.article import ArticleSerializer
+from .models import Article, Digest
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ["id", "source_url", "short_text", "full_text"]
 
 
 class DigestSerializer(serializers.ModelSerializer):

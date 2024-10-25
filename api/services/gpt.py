@@ -2,7 +2,7 @@ import logging
 
 from g4f.client import Client
 
-from ..models.article import Article
+from ..models import Article
 
 
 def get_gpt_response(prompt: str, model: str = "gpt-3.5-turbo") -> str:
