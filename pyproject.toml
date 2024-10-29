@@ -29,6 +29,8 @@ celery-types = "*"
 redis = "*"
 types-redis = "*"
 PyYAML = "*"
+pytz = "*"
+types-pytz = "*"
 
 [tool.poetry.dev-dependencies]
 ruff = "*"
@@ -46,8 +48,6 @@ coverage = "*"
 factory-boy = "*"
 freezegun = "*"
 types-freezegun = "*"
-pytz = "*"
-types-pytz = "*"
 
 [build-system]
 requires = ["poetry-core"]

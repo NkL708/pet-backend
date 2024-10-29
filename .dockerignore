@@ -1,3 +1,6 @@
-.devcontainer.json
 Dockerfile
+.dockerignore
+.devcontainer.json
+.git*
 README.md
+api/tests/
