@@ -1,0 +1,11 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+  <ul class="object-tools">
+    <li>
+      <a href="{% url 'generate_digest' %}">
+        Generate Digest
+      </a>
+    </li>
+  </ul>
+{% endblock %}
