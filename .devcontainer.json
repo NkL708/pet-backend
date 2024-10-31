@@ -9,15 +9,19 @@
         "mypy.runUsingActiveInterpreter": true
       },
       "extensions": [
+        // Syntax highlight
         "ms-azuretools.vscode-docker",
         "ms-python.python",
-        "ms-python.black-formatter",
-        "charliermarsh.ruff",
-        "matangover.mypy",
         "tamasfe.even-better-toml",
-        "zh9528.file-size",
-        "monosans.djlint",
-        "batisteo.vscode-django"
+        // Linters, formatters
+        "matangover.mypy",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        // Django support
+        "batisteo.vscode-django",
+        "junstyle.vscode-django-support",
+        // Other
+        "zh9528.file-size"
       ]
     }
   },
