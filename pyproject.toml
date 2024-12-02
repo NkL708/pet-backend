@@ -75,6 +75,11 @@ profile = "black"
 [tool.pytest.ini_options]
 addopts = "--tb=short --cov=api"
 filterwarnings = ["ignore::DeprecationWarning"]
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+    "performance: marks tests as performance tests",
+]
 
 [tool.coverage.run]
 omit = [
