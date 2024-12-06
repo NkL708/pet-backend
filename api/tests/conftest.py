@@ -2,6 +2,9 @@ from datetime import datetime
 from typing import Any
 
 import pytest
+from rest_framework.test import APIClient
+
+from api.models import Article
 
 
 @pytest.fixture
@@ -26,3 +29,17 @@ def sample_articles() -> list[dict[str, Any]]:
             ),
         },
     ]
+
+
+@pytest.fixture
+def article() -> Article:
+    return Article.objects.create(
+        source_url="https://example.com/article1",
+        short_text="Short description",
+        full_text="Full description of the article.",
+    )
+
+
+@pytest.fixture
+def client():
+    return APIClient()
