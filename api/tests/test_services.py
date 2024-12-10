@@ -172,6 +172,29 @@ def test_fetch_rss_feed_mixed_content():
 
 
 @pytest.mark.unit
+def test_fetch_rss_feed_invalid_date_format():
+    invalid_rss_content = """
+    <rss version="2.0">
+        <channel>
+            <item>
+                <title>Title with invalid date</title>
+                <link>https://example.com/article</link>
+                <pubDate>Invalid Date Format</pubDate>
+            </item>
+        </channel>
+    </rss>
+    """
+    with patch("requests.get") as mock_get:
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.text = invalid_rss_content
+
+        articles = fetch_rss_feed("https://example.com/rss")
+
+    assert len(articles) == 1
+    assert articles[0]["published_date"] is None
+
+
+@pytest.mark.unit
 def test_get_articles_for_date(sample_articles):
     filtered_articles = get_articles_for_date(sample_articles, "2024-11-03")
 
