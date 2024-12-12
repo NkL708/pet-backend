@@ -14,7 +14,6 @@ def test_fetch_rss_feed(mock_requests_get, rss_content):
 
     articles = fetch_rss_feed("https://example.com/rss")
 
-    assert len(articles) == 3
     expected_articles = [
         {
             "title": "News 1",
@@ -38,7 +37,7 @@ def test_fetch_rss_feed(mock_requests_get, rss_content):
             ),
         },
     ]
-
+    assert len(articles) == 3
     for article, expected in zip(articles, expected_articles):
         assert article["title"] == expected["title"]
         assert article["link"] == expected["link"]
@@ -141,8 +140,8 @@ def test_get_articles_for_date(articles):
 
 @pytest.mark.unit
 def test_get_articles_for_date_no_matches(articles):
-
     filtered_articles = get_articles_for_date(articles, "2024-11-02")
+
     assert len(filtered_articles) == 0
 
 
@@ -166,7 +165,9 @@ def test_get_articles_for_date_multiple_matches(articles):
             },
         ]
     )
+
     filtered_articles = get_articles_for_date(articles, "2024-11-03")
+
     assert len(filtered_articles) == 3
 
 
@@ -194,12 +195,10 @@ def test_get_articles_for_date_large_dataset():
 
 @pytest.mark.integration
 def test_fetch_and_filter_articles(mock_requests_get, rss_content):
-
     mock_requests_get.return_value.status_code = 200
     mock_requests_get.return_value.text = rss_content
 
     articles = fetch_rss_feed("https://example.com/rss")
-
     filtered_articles = get_articles_for_date(articles, "2024-11-27")
 
     assert len(filtered_articles) == 2
