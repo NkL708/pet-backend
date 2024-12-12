@@ -4,8 +4,8 @@ import feedparser
 import requests
 
 
-def fetch_rss_feed(url: str) -> list:
-    response = requests.get(url)
+def fetch_rss_feed(url: str, timeout: int = 10) -> list:
+    response = requests.get(url, timeout=timeout)
     response.raise_for_status()
     feed = feedparser.parse(response.text)
 

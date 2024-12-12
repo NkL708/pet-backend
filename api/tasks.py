@@ -1,4 +1,4 @@
-from celery import shared_task
+# from celery import shared_task
 
 # from .services.digest import generate_daily_digest
 
