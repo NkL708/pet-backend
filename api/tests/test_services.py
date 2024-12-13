@@ -175,6 +175,29 @@ def test_get_articles_for_date_multiple_matches(articles):
     assert len(filtered_articles) == 3
 
 
+@pytest.mark.unit
+def test_convert_to_utc_valid_date():
+    date_str = "Tue, 26 Nov 2024 13:11:36 +0300"
+    expected_datetime = datetime(2024, 11, 26, 10, 11, 36, tzinfo=timezone.utc)
+
+    assert convert_to_utc(date_str) == expected_datetime
+
+
+@pytest.mark.unit
+def test_convert_to_utc_wrong_format():
+    date_str = "2024-11-26 13:11:36"
+    assert convert_to_utc(date_str) is None
+
+
+@pytest.mark.unit
+def test_convert_to_utc_different_format():
+    date_str = "2024-11-26T13:11:36+0300"
+    date_format = "%Y-%m-%dT%H:%M:%S%z"
+    expected_datetime = datetime(2024, 11, 26, 10, 11, 36, tzinfo=timezone.utc)
+
+    assert convert_to_utc(date_str, date_format) == expected_datetime
+
+
 @pytest.mark.performance
 def test_get_articles_for_date_large_dataset():
     articles = [
@@ -208,23 +231,3 @@ def test_fetch_and_filter_articles(mock_requests_get, rss_content):
     assert len(filtered_articles) == 2
     assert filtered_articles[0]["title"] == "News 1"
     assert filtered_articles[1]["title"] == "News 3"
-
-
-def test_convert_to_utc_valid_date():
-    date_str = "Tue, 26 Nov 2024 13:11:36 +0300"
-    expected_datetime = datetime(2024, 11, 26, 10, 11, 36, tzinfo=timezone.utc)
-
-    assert convert_to_utc(date_str) == expected_datetime
-
-
-def test_convert_to_utc_wrong_format():
-    date_str = "2024-11-26 13:11:36"
-    assert convert_to_utc(date_str) is None
-
-
-def test_convert_to_utc_different_format():
-    date_str = "2024-11-26T13:11:36+0300"
-    date_format = "%Y-%m-%dT%H:%M:%S%z"
-    expected_datetime = datetime(2024, 11, 26, 10, 11, 36, tzinfo=timezone.utc)
-
-    assert convert_to_utc(date_str, date_format) == expected_datetime
