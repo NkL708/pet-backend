@@ -1,0 +1,46 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: run Ruff linter checks
+        entry: poetry run ruff check
+        language: system
+        types: [python]
+
+      - id: mypy
+        name: run Mypy type checks
+        entry: poetry run mypy
+        language: system
+        types: [python]
+
+      - id: bandit
+        name: run Bandit security checks
+        entry: poetry run bandit -r -c pyproject.toml
+        language: system
+        types: [python]
+
+      - id: pytest
+        name: run Pytest tests
+        entry: zsh -c "
+          source ../dev.env
+          DJANGO_SETTINGS_MODULE=core.settings
+          poetry run pytest"
+        language: system
+        types: [python]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: clean-temp-files
+        name: clean Python temporary files
+        entry: zsh -c "
+          find . -type d -name '__pycache__' -exec rm -rf {} + || true;
+          rm -rf .pytest_cache .mypy_cache .ruff_cache || true;
+          rm -f .coverage || true"
+        language: system
+        always_run: true

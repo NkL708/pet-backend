@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "backend"
 version = "0.1.0"
-description = ""
+description = "Backend for web application"
 authors = ["nkl708 <nklnsk708@gmail.com>"]
 readme = "README.md"
 
@@ -32,7 +32,9 @@ PyYAML = "*"
 pytz = "*"
 types-pytz = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+pre-commit = "*"
+
 ruff = "*"
 mypy = "*"
 bandit = "*"
@@ -48,6 +50,8 @@ coverage = "*"
 factory-boy = "*"
 freezegun = "*"
 types-freezegun = "*"
+types-pyyaml = "*"
+types-requests = "*"
 
 [build-system]
 requires = ["poetry-core"]
