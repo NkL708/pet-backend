@@ -1,62 +1,72 @@
+# =========================== Basic Project Info ===========================
 [tool.poetry]
 name = "backend"
 version = "0.1.0"
 description = "Backend for web application"
 authors = ["nkl708 <nklnsk708@gmail.com>"]
-readme = "README.md"
+package-mode = false
 
+# ========================== Production dependencies ==========================
 [tool.poetry.dependencies]
 python = "^3.11"
 
+# --- Django and REST ---
 django = "*"
-django-stubs = "*"
 djangorestframework = "*"
-djangorestframework-stubs = "*"
-djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 
-python-dotenv = "*"
-psycopg2-binary = "*"
-sentry-sdk = "*"
+# --- WSGI ---
 gunicorn = "*"
 
+# --- Database ---
+psycopg2-binary = "*"
+
+# --- Environment --
+python-dotenv = "*"
+
+# --- Parse Tools  ---
 feedparser = "*"
-beautifulsoup4 = "*"
-types-beautifulsoup4 = "*"
-g4f = "*"
+
+# --- Queue Processing ---
 celery = { version = "*", extras = ["redis", "beat"] }
-celery-types = "*"
 redis = "*"
-types-redis = "*"
-PyYAML = "*"
+
+# --- YAML ---
+pyyaml = "*"
+
+# --- Time ---
 pytz = "*"
+
+# --- Monitoring / Logging / Error Reporting
+sentry-sdk = "*"
+
+# ======================= Development dependencies ======================
+[tool.poetry.group.dev.dependencies]
+# --- Stubs ---
+django-stubs = "*"
+djangorestframework-stubs = "*"
+celery-types = "*"
+types-redis = "*"
 types-pytz = "*"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "*"
-
+# --- Code Quality & Security ---
 ruff = "*"
 mypy = "*"
 bandit = "*"
 
-black = "*"
-isort = "*"
-
+# --- Testing ---
 pytest = "*"
 pytest-mock = "*"
 pytest-django = "*"
 pytest-cov = "*"
 coverage = "*"
-factory-boy = "*"
-freezegun = "*"
-types-freezegun = "*"
-types-pyyaml = "*"
-types-requests = "*"
 
+# ======================== Poetry Build System =======================
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+# ================================== Tools' Settings ==================================
 [tool.ruff]
 exclude = [".venv"]
 line-length = 79
@@ -64,17 +74,6 @@ line-length = 79
 [tool.mypy]
 exclude = [".venv/"]
 ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "factory.*"
-ignore_missing_imports = true
-
-[tool.black]
-line-length = 79
-exclude = ".venv"
-
-[tool.isort]
-profile = "black"
 
 [tool.pytest.ini_options]
 addopts = "--tb=short --cov=api"
