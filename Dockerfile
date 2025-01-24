@@ -4,8 +4,9 @@ WORKDIR /home/nkl/backend
 RUN addgroup nkl && \
     adduser -D -G nkl -s /bin/zsh nkl && \
     chown -R nkl:nkl /home/nkl
-RUN pip install poetry && \
-    pip install --upgrade "setuptools>=70.0"
+RUN pip install --upgrade "setuptools>=70.0" && \
+    pip install poetry && \
+    poetry self add poetry-plugin-shell
 USER nkl
 RUN poetry config virtualenvs.create true && \
     poetry config virtualenvs.in-project true
