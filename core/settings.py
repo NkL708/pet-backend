@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from pathlib import Path
 
 import sentry_sdk
@@ -8,22 +7,25 @@ from celery.schedules import crontab
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
-# Environment
+# ================================== ENVIRONMENT =================================
 load_dotenv()
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("PRODUCTION") == "False"
 
-# Django
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-ROOT_URLCONF = "core.urls"
+
+# ================================== DJANGO CORE SETTINGS ========================
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Novosibirsk"
 USE_I18N = True
 USE_TZ = True
+
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+ROOT_URLCONF = "core.urls"
 WSGI_APPLICATION = "core.wsgi.application"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -33,7 +35,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework_simplejwt",
     "corsheaders",
     "api",
 ]
@@ -65,6 +66,7 @@ TEMPLATES = [
     },
 ]
 
+# ================================== LOGGING =====================================
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -83,16 +85,7 @@ LOGGING = {
     },
 }
 
-# REST
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-}
-
-# Database
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
+# ================================== DATABASE ====================================
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -104,7 +97,7 @@ DATABASES = {
     }
 }
 
-# Auth
+# ================================== AUTH ========================================
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
@@ -128,14 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
-}
-
-# Outer requests
+# ========================== EXTERNAL (CORS / ALLOWED_HOSTS) ======================
 ALLOWED_HOSTS = ["localhost", os.getenv("SERVER_HOST")]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
@@ -143,7 +129,7 @@ CORS_ALLOWED_ORIGINS = [
     f"http://{os.getenv('SERVER_HOST')}",
 ]
 
-# Sentry
+# ================================== SENTRY ======================================
 if not DEBUG:
     sentry_sdk.init(
         dsn=os.getenv("SENTRY_DSN_BACKEND"),
@@ -153,7 +139,7 @@ if not DEBUG:
         profiles_sample_rate=1.0,
     )
 
-# Selery
+# ================================== CELERY ======================================
 CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_RESULT_BACKEND = "redis://redis:6379/0"
